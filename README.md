@@ -183,6 +183,6 @@ ros2 topic echo /rtabmap/info | grep -E "(features|loop|WM)"
 ```bash
 sudo apt update
 sudo apt install ros-humble-rtabmap-ros ros-humble-gazebo-ros \
-  ros-humble-realsense2-camera ros-humble-robot-state-publisher \
-  ros-humble-teleop-twist-keyboard
+ros-humble-realsense2-camera ros-humble-robot-state-publisher \
+ros-humble-teleop-twist-keyboard
 ```
