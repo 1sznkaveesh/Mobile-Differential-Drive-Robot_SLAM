@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 Overview
+##  Overview
 
 This workspace contains a complete SLAM system with:
 -  **Wheel + Visual Odometry Fusion** (99-100 Hz)
@@ -73,12 +73,14 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ## Package Contents
 
 ```
+The Robot must move for a map to be generated.
+
 ws_ddmobile/
 ├── src/mobile_dd_robot/
 │   ├── launch/
-│   │   ├── rtabmap_slam_robust.launch.py    # ⭐ Main SLAM launch
+│   │   ├── rtabmap_slam_robust.launch.py    # Main SLAM launch
 │   │   ├── rtabmap_localization.launch.py   # Localization mode
-│   │   └── gazebo_model.launch.py           # Basic robot spawn
+│   │   └── gazebo_model.launch.py           # Basic robot spawn 
 │   ├── model/
 │   │   ├── robot_with_camera.xacro          # Robot description
 │   │   ├── camera.xacro                     # RealSense D455
@@ -93,7 +95,7 @@ ws_ddmobile/
 
 ---
 
-## 🎮 Usage Examples
+##  Usage Examples
 
 ### Build a Map
 ```bash
