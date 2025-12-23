@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Intel RealSense D455 Camera Macro -->
+  <xacro:macro name="realsense_d455" params="parent_link *origin">
+    
+    <!-- Camera properties based on D455 specifications -->
+    <xacro:property name="d455_cam_width" value="0.124"/>
+    <xacro:property name="d455_cam_height" value="0.029"/>
+    <xacro:property name="d455_cam_depth" value="0.026"/>
+    <xacro:property name="d455_cam_mass" value="0.116"/>
+    
+    <!-- Camera mounting link -->
+    <link name="camera_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${d455_cam_depth} ${d455_cam_width} ${d455_cam_height}"/>
+        </geometry>
+        <material name="camera_material">
+          <color rgba="0.5 0.5 0.5 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${d455_cam_depth} ${d455_cam_width} ${d455_cam_height}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${d455_cam_mass}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0"
+          izz="1e-6"/>
+      </inertial>
+    </link>
+
+    <!-- Joint connecting camera to parent -->
+    <joint name="camera_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="camera_link"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <!-- Optical frame for camera (ROS convention) -->
+    <link name="camera_depth_frame"/>
+    
+    <joint name="camera_depth_joint" type="fixed">
+      <parent link="camera_link"/>
+      <child link="camera_depth_frame"/>
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <!-- RGB camera optical frame -->
+    <link name="camera_color_frame"/>
+    
+    <joint name="camera_color_joint" type="fixed">
+      <parent link="camera_link"/>
+      <child link="camera_color_frame"/>
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+
+    <!-- Gazebo plugin for RealSense D455 -->
+    <gazebo reference="camera_link">
+      <sensor name="d455_camera" type="depth">
+        <update_rate>30</update_rate>
+        <camera>
+          <horizontal_fov>1.5009</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10.0</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <ros>
+            <namespace>/camera</namespace>
+            <remapping>~/image_raw:=color/image_raw</remapping>
+            <remapping>~/camera_info:=color/camera_info</remapping>
+          </ros>
+          <camera_name>d455</camera_name>
+          <frame_name>camera_color_frame</frame_name>
+          <hack_baseline>0.07</hack_baseline>
+        </plugin>
+      </sensor>
+      
+      <!-- Depth camera sensor -->
+      <sensor name="d455_depth" type="depth">
+        <update_rate>30</update_rate>
+        <camera>
+          <horizontal_fov>1.5009</horizontal_fov>
+          <image>
+            <width>1280</width>
+            <height>720</height>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>10.0</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.1</stddev>
+          </noise>
+        </camera>
+        <plugin name="depth_camera_controller" filename="libgazebo_ros_camera.so">
+          <ros>
+            <namespace>/camera</namespace>
+            <remapping>~/image_raw:=depth/image_rect_raw</remapping>
+            <remapping>~/camera_info:=depth/camera_info</remapping>
+            <remapping>~/points:=depth/color/points</remapping>
+          </ros>
+          <camera_name>d455</camera_name>
+          <frame_name>camera_depth_frame</frame_name>
+          <hack_baseline>0.07</hack_baseline>
+          <min_depth>0.1</min_depth>
+          <max_depth>10.0</max_depth>
+        </plugin>
+      </sensor>
+      
+      <material>Gazebo/Gray</material>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

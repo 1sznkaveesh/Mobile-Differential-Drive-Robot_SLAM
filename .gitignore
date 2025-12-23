@@ -1,0 +1,50 @@
+# ROS 2 Colcon Build Artifacts
+build/
+install/
+log/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ROS Database Files
+*.db
+*.db-shm
+*.db-wal
+
+# Backup Files
+*.backup
+*.bak
+*~
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Gazebo Files (temporary)
+.gazebo/models/
+.gazebo/server-*/
+.gazebo/client-*/
+
+# RViz Config Backups
+*.rviz.backup*
+
+# Test and Temporary Files
+tmp_*
+temp_*
+test_*.bag
+*.bag
+
+# OS Files
+Thumbs.db
+.directory
+
+# Documentation Build
+_build/
+docs/_build/

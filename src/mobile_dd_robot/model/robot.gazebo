@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<robot>
+
+  <gazebo reference="body_link">
+    <material>Gazebo/Blue</material>
+    <self_collide>true</self_collide>
+  </gazebo>
+
+  <gazebo reference="left_wheel_1_link">
+    <material>Gazebo/Black</material>
+    <self_collide>true</self_collide>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="left_wheel_2_link">
+    <material>Gazebo/Black</material>
+    <self_collide>true</self_collide>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="left_wheel_3_link">
+    <material>Gazebo/Black</material>
+    <self_collide>true</self_collide>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="right_wheel_1_link">
+    <material>Gazebo/Black</material>
+    <self_collide>true</self_collide>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="right_wheel_2_link">
+    <material>Gazebo/Black</material>
+    <self_collide>true</self_collide>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="right_wheel_3_link">
+    <material>Gazebo/Black</material>
+    <self_collide>true</self_collide>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <ros>
+        <remapping>cmd_vel:=cmd_vel</remapping>
+        <namespace></namespace>
+      </ros>
+
+      <!-- Number of wheel pairs -->
+      <num_wheel_pairs>3</num_wheel_pairs>
+
+      <!-- Specify all wheel joints explicitly -->
+      <left_joint>left_wheel_1_joint</left_joint>
+      <left_joint>left_wheel_2_joint</left_joint>
+      <left_joint>left_wheel_3_joint</left_joint>
+      <right_joint>right_wheel_1_joint</right_joint>
+      <right_joint>right_wheel_2_joint</right_joint>
+      <right_joint>right_wheel_3_joint</right_joint>
+
+      <!-- Kinematics -->
+      <wheel_separation>0.7</wheel_separation> <!-- Adjust to you robot width -->
+      <wheel_diameter>0.3</wheel_diameter>     <!-- 2 * wheel radius -->
+
+      <!-- Limits -->
+      <max_wheel_torque>5000</max_wheel_torque>
+      <max_wheel_acceleration>7.0</max_wheel_acceleration>
+
+      <!-- Output options -->
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_wheel_tf>true</publish_wheel_tf>
+
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>body_link</robot_base_frame>
+    </plugin>
+  </gazebo>
+
+</robot>
