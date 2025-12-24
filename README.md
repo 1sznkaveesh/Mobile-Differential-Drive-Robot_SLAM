@@ -90,7 +90,7 @@ ws_ddmobile/
 │   │   └── rtabmap.rviz                     # RViz configuration
 │   ├── CMakeLists.txt
 │   └── package.xml
-└── [Documentation files...]
+└── README.MD
 ```
 
 ---
