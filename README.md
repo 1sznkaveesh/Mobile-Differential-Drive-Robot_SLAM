@@ -37,6 +37,7 @@ source install/setup.bash
 ### 2. Launch SLAM System
 ```bash
 ros2 launch mobile_dd_robot rtabmap_slam_robust.launch.py
+rviz2 -d src/mobile_dd_robot/config/rtabmap.rviz     
 ```
 
 ### 3. Control the Robot
