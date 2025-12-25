@@ -4,8 +4,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /TF1
-        - /Map1
       Splitter Ratio: 0.5
     Tree Height: 549
   - Class: rviz_common/Selection
@@ -18,93 +16,7 @@ Panels:
 
 Visualization Manager:
   Class: ""
-  Displays:
-    - Alpha: 0.5
-      Cell Size: 1
-      Class: rviz_default_plugins/Grid
-      Color: 160; 160; 164
-      Enabled: true
-      Name: Grid
-      Plane: XY
-      Plane Cell Count: 20
-      Reference Frame: <Fixed Frame>
-      Value: true
-      
-    - Class: rviz_default_plugins/TF
-      Enabled: true
-      Frame Timeout: 15
-      Frames:
-        All Enabled: true
-      Marker Scale: 0.3
-      Name: TF
-      Show Arrows: true
-      Show Axes: true
-      Show Names: true
-      Update Interval: 0
-      Value: true
-      
-    - Alpha: 1
-      Class: rviz_default_plugins/RobotModel
-      Description Source: Topic
-      Description Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /robot_description
-      Enabled: true
-      Name: RobotModel
-      Value: true
-      
-    - Alpha: 0.7
-      Class: rviz_default_plugins/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /map
-      Use Timestamp: false
-      Value: true
-      
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Class: rviz_default_plugins/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
-      Enabled: true
-      Name: PointCloud2
-      Position Transformer: XYZ
-      Selectable: true
-      Size (m): 0.03
-      Style: Flat Squares
-      Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Best Effort
-        Value: /camera/d455/points
-      Use Fixed Frame: true
-      Value: true
-      
-    - Class: rviz_default_plugins/Image
-      Enabled: true
-      Max Value: 1
-      Name: Camera
-      Normalize Range: true
-      Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Best Effort
-        Value: /camera/d455/image_raw
-      Value: true
-      
+  Displays: []
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -131,7 +43,6 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /goal_pose
-        
   Transformation:
     Current:
       Class: rviz_default_plugins/TF
@@ -154,10 +65,8 @@ Visualization Manager:
       Value: Orbit (rviz)
       Yaw: 3.14
     Saved: ~
-    
+
 Window Geometry:
-  Camera:
-    collapsed: false
   Displays:
     collapsed: false
   Height: 1016

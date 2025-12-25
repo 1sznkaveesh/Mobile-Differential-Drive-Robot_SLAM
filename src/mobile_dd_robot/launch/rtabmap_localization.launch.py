@@ -182,6 +182,7 @@ def generate_launch_description():
         'Grid/NoiseFilteringRadius': '0.05',
         'Grid/NoiseFilteringMinNeighbors': '5',
         'Grid/RayTracing': 'true',
+        'Grid/MapFrameProjection': 'true',  # Project grid to map frame for /map topic
         
         # Graph Optimization
         'RGBD/OptimizeStrategy': '1',

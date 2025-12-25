@@ -178,13 +178,16 @@ def generate_launch_description():
         'Grid/Sensor': '1',                # 0=laser, 1=depth
         'Grid/CellSize': '0.05',           # 5cm resolution
         'Grid/RangeMax': '5.0',            # 5m max range
-        'Grid/RangeMin': '0.2',            # 20cm min range
+        'Grid/RangeMin': '0.15',            # 20cm min range
         'Grid/MaxObstacleHeight': '2.0',   # 2m obstacle height
-        'Grid/3D': 'false',                # 2D grid (set true for 3D OctoMap)
-        'Grid/ClusterRadius': '0.1',
+        'Grid/3D': 'true',                # 2D grid (set true for 3D OctoMap)
+        'Grid/ClusterRadius': '0.15',
+        'Grid/MinClusterSize': '3',
+        'OctoMap/VoxelSize': '0.05',
+        'OctoMap/OccupancyThreshold': '0.3',
         'Grid/GroundIsObstacle': 'false',
         'Grid/NoiseFilteringRadius': '0.05',
-        'Grid/NoiseFilteringMinNeighbors': '5',
+        'Grid/NoiseFilteringMinNeighbors': '3',
         'Grid/RayTracing': 'true',         # Fill free space
         
         # Graph Optimization
