@@ -19,7 +19,7 @@ def generate_launch_description():
     # worldFileRelativePath = 'model/3d_slam_world.world'  # Using TurtleBot3 world instead
 
     pathModelFile = os.path.join(get_package_share_directory(namePackage), modelFileRelativePath)
-    pathWorldFile = f"/opt/ros/{os.environ['ROS_DISTRO']}/share/turtlebot3_gazebo/worlds/turtlebot3_house.world"
+    pathWorldFile = f"/opt/ros/{os.environ['ROS_DISTRO']}/share/turtlebot3_gazebo/worlds/turtlebot3_dqn_stage4.world"
 
     robotDescription = xacro.process_file(pathModelFile).toxml()
 
