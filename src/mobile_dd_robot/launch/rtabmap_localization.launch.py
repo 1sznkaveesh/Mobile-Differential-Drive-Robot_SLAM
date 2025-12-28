@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """
-RTABMap LOCALIZATION Launch File
-Use this mode when you have an existing map and want to localize only (no mapping)
-- Uses existing database from SLAM mode
-- Does not add new nodes to the map
-- Can relocalize if the robot gets lost
+RTABMap LOCALIZATION Launch File with User Parameters
 """
 
 import os
@@ -20,10 +16,10 @@ def generate_launch_description():
     robotXacroName = 'differential_drive_robot'
     namePackage = 'mobile_dd_robot'
     modelFileRelativePath = 'model/robot_with_camera.xacro'
-    worldFileRelativePath = 'model/3d_slam_world.world'
+    # worldFileRelativePath = 'model/3d_slam_world.world'  # Using TurtleBot3 world instead
 
     pathModelFile = os.path.join(get_package_share_directory(namePackage), modelFileRelativePath)
-    pathWorldFile = os.path.join(get_package_share_directory(namePackage), worldFileRelativePath)
+    pathWorldFile = f"/opt/ros/{os.environ['ROS_DISTRO']}/share/turtlebot3_gazebo/worlds/turtlebot3_house.world"
 
     robotDescription = xacro.process_file(pathModelFile).toxml()
 
@@ -73,7 +69,6 @@ def generate_launch_description():
         description='Path to existing RTABMap database (must exist!)')
     
     # RTABMap parameters - LOCALIZATION MODE
-
     rtabmap_parameters = [{
         'frame_id': 'body_link',
         'use_sim_time': use_sim_time,
@@ -87,35 +82,30 @@ def generate_launch_description():
         'qos_odom': qos,
         'database_path': database_path,
         
-        # LOCALIZATION MODE - Key difference from SLAM
-       
+        # LOCALIZATION MODE
         'Mem/IncrementalMemory': 'false',  
         'Mem/InitWMWithAllNodes': 'true', 
         
         # ODOMETRY FUSION
-      
         'Odom/Strategy': '0',
         'Odom/GuessMotion': 'true',
         'Odom/ResetCountdown': '5',
         'Odom/FilteringStrategy': '1',
         
         # REGISTRATION
-
         'Reg/Force3DoF': 'true',
         'Reg/Strategy': '0',
         'Reg/RepeatOnce': 'true',
         
-        # MEMORY MANAGEMENT - For localization
-
+        # MEMORY MANAGEMENT
         'Mem/STMSize': '30',
         'Mem/ImagePreDecimation': '2',
-        'Mem/ImagePostDecimation': '1',
-        'Mem/ReduceGraph': 'false',        # Don't reduce in localization
+        'Mem/ImagePostDecimation': '4',    # UPDATED: 1 → 4
+        'Mem/ReduceGraph': 'false',
         'Mem/NotLinkedNodesKept': 'true',
         'Mem/IntermediateNodeDataKept': 'true',
         
         # RGBD PROCESSING
-
         'RGBD/CreateOccupancyGrid': 'true',
         'RGBD/NeighborLinkRefining': 'true',
         'RGBD/ProximityBySpace': 'true',
@@ -128,7 +118,6 @@ def generate_launch_description():
         'RGBD/LoopClosureReextractFeatures': 'true',
          
         # VISUAL FEATURES
-        
         'Vis/MaxFeatures': '1000',
         'Vis/MinInliers': '20',
         'Vis/InlierDistance': '0.1',
@@ -139,9 +128,7 @@ def generate_launch_description():
         'Vis/EstimationType': '1',
         'Vis/ForwardEstOnly': 'false',
         
-       
         # KEYPOINT DETECTION
-
         'Kp/MaxFeatures': '500',
         'Kp/DetectorStrategy': '6',
         'Kp/RoiRatios': '0.0 0.0 0.0 0.0',
@@ -151,17 +138,13 @@ def generate_launch_description():
         'Kp/IncrementalDictionary': 'false',  
         'Kp/BadSignRatio': '0.5',
         
-        
-        # LOOP CLOSURE - More aggressive for relocalization
-       
-        'Rtabmap/DetectionRate': '2.0',    # Check twice per second
+        # LOOP CLOSURE
+        'Rtabmap/DetectionRate': '2.0',
         'Rtabmap/TimeThr': '0',
         'Rtabmap/LoopThr': '0.11',
         'Rtabmap/LoopRatio': '0.9',
         
-
         # RELOCALIZATION SETTINGS
-       
         'Rtabmap/StartNewMapOnLoopClosure': 'false',
         'Rtabmap/StartNewMapOnGoodSignature': 'false',
         'Mem/RehearsalSimilarity': '0.6',
@@ -169,25 +152,41 @@ def generate_launch_description():
         'RGBD/LocalRadius': '10',
         'RGBD/LocalImmunizationRatio': '0.25',
         
-        # Grid/Map Settings
+        # Grid/Map Settings - USER PARAMETERS
         'Grid/FromDepth': 'true',
         'Grid/Sensor': '1',
-        'Grid/CellSize': '0.05',
-        'Grid/RangeMax': '5.0',
-        'Grid/RangeMin': '0.2',
+        'Grid/CellSize': '0.05',           # UPDATED: 0.05 → 0.02
+        'Grid/RangeMax': '4',              # UPDATED: 5.0 → 4
+        'Grid/RangeMin': '0.15',            # UPDATED: 0.15 → 0.3
         'Grid/MaxObstacleHeight': '2.0',
-        'Grid/3D': 'false',
-        'Grid/ClusterRadius': '0.1',
+        'Grid/3D': 'true',
+        'Grid/ClusterRadius': '0.15',
+        'Grid/MinClusterSize': '3',       # UPDATED: 3 → 10
+        'Grid/NormalSegmentation': 'false',  # ADDED
+        'OctoMap/VoxelSize': '0.05',
+        'OctoMap/OccupancyThreshold': '0.3',
         'Grid/GroundIsObstacle': 'false',
-        'Grid/NoiseFilteringRadius': '0.05',
-        'Grid/NoiseFilteringMinNeighbors': '5',
+        'Grid/NoiseFilteringRadius': '0.12',
+        'Grid/NoiseFilteringMinNeighbors': '6',
+        
+        # Ground Filtering & Refinements
+        'Grid/MinGroundHeight': '-0.1',        # Filter points below -10cm (removes underground artifacts)
+        'Grid/MaxGroundHeight': '0.05',        # Ground detection threshold (5cm above base)
+        'Grid/NormalsSegmentation': 'false',   # Disable for faster processing
+        'Grid/FootprintLength': '0.0',         # Robot footprint (0 = auto)
+        'Grid/FootprintWidth': '0.0',          # Robot footprint (0 = auto)
+        'Grid/FootprintHeight': '0.0',         # Robot footprint height
+        
+        # Enhanced Noise Filtering
+        'Grid/DepthDecimation': '1',           # No decimation for depth
+        'Grid/FlatObstacleDetected': 'true',   # Detect flat obstacles
         'Grid/RayTracing': 'true',
-        'Grid/MapFrameProjection': 'true',  # Project grid to map frame for /map topic
+        'Grid/MapFrameProjection': 'true',
         
         # Graph Optimization
         'RGBD/OptimizeStrategy': '1',
         'Optimizer/Strategy': '1',
-        'Optimizer/Iterations': '20',
+        'Optimizer/Iterations': '30',
         'Optimizer/Epsilon': '0.00001',
         'Optimizer/Robust': 'true',
     }]
@@ -207,7 +206,7 @@ def generate_launch_description():
         output='screen',
         parameters=rtabmap_parameters,
         remappings=rtabmap_remappings,
-        arguments=['--delete_db_on_start', 'false'],  # Must keep database!
+        arguments=['--delete_db_on_start', 'false'],
     )
     
     # RTABMap visualization

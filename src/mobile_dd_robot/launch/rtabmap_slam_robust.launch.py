@@ -22,11 +22,8 @@ def generate_launch_description():
     robotXacroName = 'differential_drive_robot'
     namePackage = 'mobile_dd_robot'
     modelFileRelativePath = 'model/robot_with_camera.xacro'
-    worldFileRelativePath = 'model/3d_slam_world.world'
-
     pathModelFile = os.path.join(get_package_share_directory(namePackage), modelFileRelativePath)
-    pathWorldFile = os.path.join(get_package_share_directory(namePackage), worldFileRelativePath)
-
+    pathWorldFile = f"/opt/ros/{os.environ['ROS_DISTRO']}/share/turtlebot3_gazebo/worlds/turtlebot3_house.world"
     robotDescription = xacro.process_file(pathModelFile).toxml()
 
     # Gazebo launch
@@ -134,7 +131,7 @@ def generate_launch_description():
         
         # VISUAL FEATURES - ROBUST DETECTION
 
-        'Vis/MaxFeatures': '1000',         # Increase from 400 to 1000
+        'Vis/MaxFeatures': '1200',         # Increase from 400 to 1000
         'Vis/MinInliers': '20',            # Increase from 15 to 20 (more robust)
         'Vis/InlierDistance': '0.1',       # Max inlier distance
         'Vis/FeatureType': '6',            # 6=GFTT (Good Features To Track)
@@ -159,7 +156,7 @@ def generate_launch_description():
 
         'Rtabmap/DetectionRate': '1.0',    # Check every frame
         'Rtabmap/TimeThr': '0',            # No time threshold (always look)
-        'Rtabmap/LoopThr': '0.11',         # Loop closure threshold (0.11 = moderate)
+        'Rtabmap/LoopThr': '0.10',         # Loop closure threshold (0.11 = moderate)
         'Rtabmap/LoopRatio': '0.9',        # Loop closure ratio
         'RGBD/LoopClosureReextractFeatures': 'true',  # Verify loops
         
@@ -177,7 +174,7 @@ def generate_launch_description():
         'Grid/FromDepth': 'true',
         'Grid/Sensor': '1',                # 0=laser, 1=depth
         'Grid/CellSize': '0.05',           # 5cm resolution
-        'Grid/RangeMax': '5.0',            # 5m max range
+        'Grid/RangeMax': '4.0',            # 5m max range
         'Grid/RangeMin': '0.15',            # 20cm min range
         'Grid/MaxObstacleHeight': '2.0',   # 2m obstacle height
         'Grid/3D': 'true',                # 2D grid (set true for 3D OctoMap)
@@ -186,15 +183,27 @@ def generate_launch_description():
         'OctoMap/VoxelSize': '0.05',
         'OctoMap/OccupancyThreshold': '0.3',
         'Grid/GroundIsObstacle': 'false',
-        'Grid/NoiseFilteringRadius': '0.05',
-        'Grid/NoiseFilteringMinNeighbors': '3',
+        'Grid/NoiseFilteringRadius': '0.12',
+        'Grid/NoiseFilteringMinNeighbors': '6',
+        
+        # Ground Filtering & Refinements
+        'Grid/MinGroundHeight': '-0.1',        # Filter points below -10cm (removes underground artifacts)
+        'Grid/MaxGroundHeight': '0.05',        # Ground detection threshold (5cm above base)
+        'Grid/NormalsSegmentation': 'false',   # Disable for faster processing
+        'Grid/FootprintLength': '0.0',         # Robot footprint (0 = auto)
+        'Grid/FootprintWidth': '0.0',          # Robot footprint (0 = auto)
+        'Grid/FootprintHeight': '0.0',         # Robot footprint height
+        
+        # Enhanced Noise Filtering
+        'Grid/DepthDecimation': '1',           # No decimation for depth
+        'Grid/FlatObstacleDetected': 'true',   # Detect flat obstacles
         'Grid/RayTracing': 'true',         # Fill free space
         
         # Graph Optimization
 
         'RGBD/OptimizeStrategy': '1',      # 0=TORO, 1=g2o, 2=GTSAM
         'Optimizer/Strategy': '1',         # Use g2o
-        'Optimizer/Iterations': '20',      # Optimization iterations
+        'Optimizer/Iterations': '30',      # Optimization iterations
         'Optimizer/Epsilon': '0.00001',    # Convergence epsilon
         'Optimizer/Robust': 'true',        # Robust optimization
     }]
