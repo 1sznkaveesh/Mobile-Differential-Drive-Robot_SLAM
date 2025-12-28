@@ -100,7 +100,7 @@ def generate_launch_description():
         # MEMORY MANAGEMENT
         'Mem/STMSize': '30',
         'Mem/ImagePreDecimation': '2',
-        'Mem/ImagePostDecimation': '4',    # UPDATED: 1 → 4
+        'Mem/ImagePostDecimation': '4',    
         'Mem/ReduceGraph': 'false',
         'Mem/NotLinkedNodesKept': 'true',
         'Mem/IntermediateNodeDataKept': 'true',
@@ -155,14 +155,14 @@ def generate_launch_description():
         # Grid/Map Settings - USER PARAMETERS
         'Grid/FromDepth': 'true',
         'Grid/Sensor': '1',
-        'Grid/CellSize': '0.05',           # UPDATED: 0.05 → 0.02
-        'Grid/RangeMax': '4',              # UPDATED: 5.0 → 4
-        'Grid/RangeMin': '0.15',            # UPDATED: 0.15 → 0.3
+        'Grid/CellSize': '0.05',          
+        'Grid/RangeMax': '4',            
+        'Grid/RangeMin': '0.15',           
         'Grid/MaxObstacleHeight': '2.0',
         'Grid/3D': 'true',
         'Grid/ClusterRadius': '0.15',
-        'Grid/MinClusterSize': '3',       # UPDATED: 3 → 10
-        'Grid/NormalSegmentation': 'false',  # ADDED
+        'Grid/MinClusterSize': '3',      
+        'Grid/NormalSegmentation': 'false', 
         'OctoMap/VoxelSize': '0.05',
         'OctoMap/OccupancyThreshold': '0.3',
         'Grid/GroundIsObstacle': 'false',

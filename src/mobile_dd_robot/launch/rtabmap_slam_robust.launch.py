@@ -138,8 +138,8 @@ def generate_launch_description():
         'Vis/MaxDepth': '5.0',             # Max depth for features
         'Vis/MinDepth': '0.2',             # Min depth for features
         'Vis/CorGuessWinSize': '40',       # Correlation window size
-        'Vis/EstimationType': '1',         # 1=3D->3D (PnP RANSAC)
-        'Vis/ForwardEstOnly': 'false',     # Bi-directional estimation
+        'Vis/EstimationType': '1',        
+        'Vis/ForwardEstOnly': 'false',     
         
         # KEYPOINT DETECTION - CRITICAL FOR LOOP CLOSURE
 
