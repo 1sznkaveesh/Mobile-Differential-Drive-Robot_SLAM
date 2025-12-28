@@ -39,7 +39,7 @@ sudo apt install ros-humble-rtabmap-ros
 # Gazebo
 sudo apt install gazebo libgazebo-dev
 
-# TurtleBot3 Gazebo (for worlds if required)
+# TurtleBot3 Gazebo ( for worlds )
 sudo apt install ros-humble-turtlebot3-gazebo
 
 # Additional dependencies
@@ -76,7 +76,9 @@ Launch SLAM mode to build a new map:
 ```bash
 # Launch Gazebo, RTABMap SLAM, and RTABMap Viz
 ros2 launch mobile_dd_robot rtabmap_slam_robust.launch.py
+```
 
+```bash 
 # Launch RViz2 separately
 cd ws_ddmobile
 source install/setup.bash
@@ -90,7 +92,9 @@ Launch localization mode to use a pre-built map:
 ```bash
 # Launch Gazebo, RTABMap Localization, and RTABMap Viz
 ros2 launch mobile_dd_robot rtabmap_localization.launch.py
+```
 
+```bash
 # Launch RViz2
 cd ws_ddmobile
 source install/setup.bash
